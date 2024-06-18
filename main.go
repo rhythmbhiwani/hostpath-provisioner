@@ -7,16 +7,16 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/kubernetes-sigs/sig-storage-lib-external-provisioner/v7/controller"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog/v2"
+	"sigs.k8s.io/sig-storage-lib-external-provisioner/v7/controller"
 )
 
 const (
-	provisionerName = "example.com/hostpath"
+	provisionerName = "rhythmbhiwani.in/hostpath"
 )
 
 type hostPathProvisioner struct {
