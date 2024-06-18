@@ -1,0 +1,6 @@
+---
+apiVersion: v2
+name: hostpath-provisioner
+description: A Helm chart for Kubernetes HostPath Provisioner
+version: 0.1.0
+appVersion: '1.0'

@@ -1,0 +1,11 @@
+---
+replicaCount: 1
+image:
+  repository: your_dockerhub_username/hostpath-provisioner
+  tag: latest
+  pullPolicy: IfNotPresent
+storageClass:
+  name: hostpath
+  reclaimPolicy: Delete
+rbac:
+  create: true

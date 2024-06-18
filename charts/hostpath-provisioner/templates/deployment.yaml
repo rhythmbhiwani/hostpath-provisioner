@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostpath-provisioner
+  labels:
+    app: hostpath-provisioner
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: hostpath-provisioner
+  template:
+    metadata:
+      labels:
+        app: hostpath-provisioner
+    spec:
+      containers:
+      - name: hostpath-provisioner
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        args:
+        - "-provisioner={{ .Values.storageClass.name }}"
+        volumeMounts:
+        - name: hostpath
+          mountPath: /mnt/data
+      volumes:
+      - name: hostpath
+        hostPath:
+          path: /mnt/data
+          type: DirectoryOrCreate
