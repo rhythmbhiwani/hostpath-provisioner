@@ -2,7 +2,7 @@
 replicaCount: 1
 image:
   repository: ghcr.io/rhythmbhiwani/hostpath-provisioner
-  tag: v1.0.3
+  tag: v1.0.4
   pullPolicy: IfNotPresent
 storageClass:
   name: hostpath
