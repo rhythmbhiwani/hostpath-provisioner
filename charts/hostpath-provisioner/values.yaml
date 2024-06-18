@@ -4,8 +4,12 @@ image:
   repository: ghcr.io/rhythmbhiwani/hostpath-provisioner
   tag: v1.0.4
   pullPolicy: IfNotPresent
-storageClass:
-  name: hostpath
-  reclaimPolicy: Delete
+provisionerName: hostpath
+nodeHostPath: /mnt/hostpath
 rbac:
   create: true
+storageClass:
+  create: true
+  name: hostpath
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
