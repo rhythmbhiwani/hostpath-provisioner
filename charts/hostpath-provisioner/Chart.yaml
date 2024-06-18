@@ -2,5 +2,5 @@
 apiVersion: v2
 name: hostpath-provisioner
 description: A Helm chart for Kubernetes HostPath Provisioner
-version: v1.0.0
-appVersion: v1.0.0
+version: v1.0.3
+appVersion: v1.0.3
