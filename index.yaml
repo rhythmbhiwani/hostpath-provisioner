@@ -19,4 +19,13 @@ entries:
     urls:
     - https://github.com/rhythmbhiwani/hostpath-provisioner/releases/download/hostpath-provisioner-v1.0.3/hostpath-provisioner-v1.0.3.tgz
     version: v1.0.3
-generated: "2024-06-18T20:34:31.436694457Z"
+  - apiVersion: v2
+    appVersion: v1.0.0
+    created: "2024-06-18T20:49:26.733424439Z"
+    description: A Helm chart for Kubernetes HostPath Provisioner
+    digest: 5cdb71ff2331efb17e34ad363000e55c9eea353b4281f46256076e51889ef280
+    name: hostpath-provisioner
+    urls:
+    - https://github.com/rhythmbhiwani/hostpath-provisioner/releases/download/hostpath-provisioner-v1.0.0/hostpath-provisioner-v1.0.0.tgz
+    version: v1.0.0
+generated: "2024-06-18T20:49:26.73344091Z"
