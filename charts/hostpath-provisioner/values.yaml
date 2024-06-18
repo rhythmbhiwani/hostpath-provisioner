@@ -2,7 +2,7 @@
 strategyType: Recreate
 image:
   repository: ghcr.io/rhythmbhiwani/hostpath-provisioner
-  tag: v1.0.0
+  tag: v1.0.1
   pullPolicy: IfNotPresent
 ## For creating the StorageClass automatically:
 storageClass:

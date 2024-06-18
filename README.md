@@ -17,7 +17,7 @@ This project provides a dynamic provisioning system for Kubernetes using HostPat
 helm install hostpath-provisioner \
   --namespace hostpath-provisioner \
   --create-namespace \
-  https://github.com/rhythmbhiwani/hostpath-provisioner/releases/download/hostpath-provisioner-v1.0.0/hostpath-provisioner-v1.0.0.tgz
+  https://github.com/rhythmbhiwani/hostpath-provisioner/releases/download/hostpath-provisioner-v1.0.1/hostpath-provisioner-v1.0.1.tgz
 ```
 
 ## Usage Instructions
