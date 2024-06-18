@@ -1,21 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hostpath-provisioner
+  name: {{ include "hostpath-provisioner.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "hostpath-provisioner.name" . }}
+    helm.sh/chart: {{ include "hostpath-provisioner.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
+  strategy:
+    type: {{ .Values.strategyType }}
   selector:
     matchLabels:
-      app: hostpath-provisioner
+      app.kubernetes.io/name: {{ include "hostpath-provisioner.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: hostpath-provisioner
+        app.kubernetes.io/name: {{ include "hostpath-provisioner.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: hostpath-provisioner
+      serviceAccountName: {{ if .Values.rbac.create }}{{ include "hostpath-provisioner.fullname" . }}{{ else }}{{ .Values.rbac.serviceAccountName | quote }}{{ end }}
       containers:
-        - name: hostpath-provisioner
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: NODE_NAME
@@ -23,11 +32,27 @@ spec:
                 fieldRef:
                   fieldPath: spec.nodeName
             - name: NODE_HOST_PATH
-              value: {{ .Values.nodeHostPath }}
+              value: "{{ .Values.nodeHostPath }}"
+            - name: HOSTPATH_PROVISIONER_NAME
+              value: "{{.Values.provisionerName }}"
           volumeMounts:
-            - mountPath: /mnt/hostpath
-              name: hostpath
+            - name: pv-volume
+              mountPath: /mnt/hostpath
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
-        - name: hostpath
+        - name: pv-volume
           hostPath:
             path: {{ .Values.nodeHostPath }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
