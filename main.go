@@ -7,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog/v2"
@@ -27,23 +27,23 @@ func NewHostPathProvisioner(client kubernetes.Interface) controller.Provisioner 
 	return &hostPathProvisioner{client: client}
 }
 
-func (p *hostPathProvisioner) Provision(ctx context.Context, options controller.ProvisionOptions) (*metav1.PersistentVolume, controller.ProvisioningState, error) {
+func (p *hostPathProvisioner) Provision(ctx context.Context, options controller.ProvisionOptions) (*corev1.PersistentVolume, controller.ProvisioningState, error) {
 	pvPath := filepath.Join("/mnt/data", options.PVName)
 	err := os.MkdirAll(pvPath, 0750)
 	if err != nil {
 		return nil, controller.ProvisioningFinished, fmt.Errorf("failed to create hostpath directory: %s", err)
 	}
 
-	pv := &metav1.PersistentVolume{
+	pv := &corev1.PersistentVolume{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: options.PVName,
 		},
-		Spec: metav1.PersistentVolumeSpec{
-			PersistentVolumeReclaimPolicy: options.StorageClass.Parameters["reclaimPolicy"],
+		Spec: corev1.PersistentVolumeSpec{
+			PersistentVolumeReclaimPolicy: corev1.PersistentVolumeReclaimPolicy(options.StorageClass.Parameters["reclaimPolicy"]),
 			AccessModes:                   options.PVC.Spec.AccessModes,
 			Capacity:                      options.PVC.Spec.Resources.Requests,
-			PersistentVolumeSource: metav1.PersistentVolumeSource{
-				HostPath: &metav1.HostPathVolumeSource{
+			PersistentVolumeSource: corev1.PersistentVolumeSource{
+				HostPath: &corev1.HostPathVolumeSource{
 					Path: pvPath,
 				},
 			},
@@ -53,7 +53,7 @@ func (p *hostPathProvisioner) Provision(ctx context.Context, options controller.
 	return pv, controller.ProvisioningFinished, nil
 }
 
-func (p *hostPathProvisioner) Delete(ctx context.Context, volume *metav1.PersistentVolume) error {
+func (p *hostPathProvisioner) Delete(ctx context.Context, volume *corev1.PersistentVolume) error {
 	pvPath := volume.Spec.HostPath.Path
 	return os.RemoveAll(pvPath)
 }
@@ -74,5 +74,5 @@ func main() {
 
 	provisioner := NewHostPathProvisioner(clientset)
 	pc := controller.NewProvisionController(clientset, provisionerName, provisioner, controller.LeaderElection(false))
-	pc.Run(context.Background(), wait.NeverStop)
+	pc.Run(context.Background())
 }
