@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   hostpath-provisioner:
   - apiVersion: v2
+    appVersion: v1.0.4
+    created: "2024-06-18T20:34:31.436643041Z"
+    description: A Helm chart for Kubernetes HostPath Provisioner
+    digest: 148a24dde04d5f0429f28f8dc1d10e1975b2447de4ac4759ff81123c8b78344e
+    name: hostpath-provisioner
+    urls:
+    - https://github.com/rhythmbhiwani/hostpath-provisioner/releases/download/hostpath-provisioner-v1.0.4/hostpath-provisioner-v1.0.4.tgz
+    version: v1.0.4
+  - apiVersion: v2
     appVersion: v1.0.3
     created: "2024-06-18T20:16:28.927367189Z"
     description: A Helm chart for Kubernetes HostPath Provisioner
@@ -10,4 +19,4 @@ entries:
     urls:
     - https://github.com/rhythmbhiwani/hostpath-provisioner/releases/download/hostpath-provisioner-v1.0.3/hostpath-provisioner-v1.0.3.tgz
     version: v1.0.3
-generated: "2024-06-18T20:16:28.92737848Z"
+generated: "2024-06-18T20:34:31.436694457Z"
